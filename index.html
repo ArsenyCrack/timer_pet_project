@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Timer</h1>
+        <input type="number" id="time-input" placeholder="Enter time in seconds" onkeyup="input()">
+        <input id="start-button" type="button" onclick="start()" value="Start">
+        <input id="stop-button" type="button" onclick="stop()" value="Stop">
+        <input id="reset-button" type="button" onclick="reset()" value="Reset">
+        <p id="timer">00:00:00</p>
+    </div>
+</body>
+<script>
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+    var isStop = true;
+
+    function input() {
+        var input_number = document.getElementById("time-input").value;
+        document.getElementById("timer").innerHTML = Math.floor(input_number/3600)+":"+Math.floor(input_number%3600/60)+":"+input_number%60;
+    }
+
+    async function start() {
+        isStop = false;
+        var input_number = document.getElementById("time-input").value;
+        while (input_number > 0 && !isStop) {
+            input_number = input_number - 1;
+            document.getElementById("time-input").value = input_number;
+            document.getElementById("timer").innerHTML = Math.floor(input_number/3600)+":"+Math.floor(input_number%3600/60)+":"+input_number%60;
+            console.log(input_number);
+            await sleep (1000);
+        }
+    }
+
+    function stop() {
+        isStop = true;
+        //document.getElementById("timer").innerHTML = Math.floor(input_number/3600)+":"+Math.floor(input_number%3600/60)+":"+input_number%60;
+    }
+
+    function reset() {
+        document.getElementById("time-input").value = 0;
+        document.getElementById("timer").innerHTML = "00:00:00";
+        isStop = true;
+    }
+</script>
+</html>
