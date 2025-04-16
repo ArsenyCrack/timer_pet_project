@@ -9,60 +9,151 @@
 <body>
     <div>
         <h1>Timer</h1>
-        <input type="number" min="0" max="86400" id="time-input" placeholder="Enter time in seconds" onkeyup="input()">
+        <p id="timer"><input type="number" min="0" max="23" id="input-hour" placeholder = "00" onkeyup="input()">:<input type="number" min="0" max="59" id="input-minute" placeholder = "00" onkeyup="input()">:<input type="number" min="0" max="59" id="input-second" placeholder = "00" onkeyup="input()"></p>
         <input id="start-button" type="button" onclick="start()" value="Start">
         <input id="stop-button" type="button" onclick="stop()" value="Stop">
         <input id="reset-button" type="button" onclick="reset()" value="Reset">
-        <p id="timer">00:00:00</p>
     </div>
 </body>
 <script>
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
     var isStop = true;
 
-    async function input() {
-        var input_number = document.getElementById("time-input").value;
-        var isFirst = "0";
-        var isSecond = "0";
-        var isThird = "0";
-
-        if (input_number > 86400) {
-            input_number = 86400;
-            document.getElementById("time-input").value = input_number;
+    function input() {
+        if (document.getElementById("input-hour").value > 23) {
+            document.getElementById("input-hour").value = "23";
         }
-
-        if (Math.floor(input_number/3600) >= 10) {
-            isFirst = "";
+        if (document.getElementById("input-minute").value > 59) {
+            document.getElementById("input-minute").value = "59";
         }
-        else {
-            isFirst = "0";
+        if (document.getElementById("input-second").value > 59) {
+            document.getElementById("input-second").value = "59";
         }
-        if (59 >= Math.floor(input_number%3600/60) && Math.floor(input_number%3600/60) >= 10) {
-            isSecond = "";
+        switch (document.getElementById("input-hour").value) {
+            case "1":
+                document.getElementById("input-hour").value = "01";
+                break;
+            case "2":
+                document.getElementById("input-hour").value = "02";
+                break;
+            case "3":
+                document.getElementById("input-hour").value = "03";
+                break;
+            case "4":
+                document.getElementById("input-hour").value = "04";
+                break;
+            case "5":
+                document.getElementById("input-hour").value = "05";
+                break;
+            case "6":
+                document.getElementById("input-hour").value = "06";
+                break;
+            case "7":
+                document.getElementById("input-hour").value = "07";
+                break;
+            case "8":
+                document.getElementById("input-hour").value = "08";
+                break;
+            case "9":
+                document.getElementById("input-hour").value = "09";
+                break;
         }
-        else {
-            isSecond = "0";
+        switch (document.getElementById("input-minute").value) {
+            case "1":
+                document.getElementById("input-minute").value = "01";
+                break;
+            case "2":
+                document.getElementById("input-minute").value = "02";
+                break;
+            case "3":
+                document.getElementById("input-minute").value = "03";
+                break;
+            case "4":
+                document.getElementById("input-minute").value = "04";
+                break;
+            case "5":
+                document.getElementById("input-minute").value = "05";
+                break;
+            case "6":
+                document.getElementById("input-minute").value = "06";
+                break;
+            case "7":
+                document.getElementById("input-minute").value = "07";
+                break;
+            case "8":
+                document.getElementById("input-minute").value = "08";
+                break;
+            case "9":
+                document.getElementById("input-minute").value = "09";
+                break;
         }
-        if (59 >= Math.floor(input_number%60) && Math.floor(input_number%60) >= 10) {
-            isThird = "";
+        switch (document.getElementById("input-second").value) {
+            case "1":
+                document.getElementById("input-second").value = "01";
+                break;
+            case "2":
+                document.getElementById("input-second").value = "02";
+                break;
+            case "3":
+                document.getElementById("input-second").value = "03";
+                break;
+            case "4":
+                document.getElementById("input-second").value = "04";
+                break;
+            case "5":
+                document.getElementById("input-second").value = "05";
+                break;
+            case "6":
+                document.getElementById("input-second").value = "06";
+                break;
+            case "7":
+                document.getElementById("input-second").value = "07";
+                break;
+            case "8":
+                document.getElementById("input-second").value = "08";
+                break;
+            case "9":
+                document.getElementById("input-second").value = "09";
+                break;
         }
-        else {
-            isThird = "0";
+        if (document.getElementById("input-hour").value > 9) {
+            document.getElementById("input-hour").value = Math.round(document.getElementById("input-hour").value);
         }
-        console.log(isFirst, isSecond, isThird);
-        document.getElementById("timer").innerHTML = isFirst+Math.floor(input_number/3600)+":"+isSecond+Math.floor(input_number%3600/60)+":"+isThird+input_number%60;
+        if (document.getElementById("input-minute").value > 9) {
+            document.getElementById("input-minute").value = Math.round(document.getElementById("input-minute").value);
+        }
+        if (document.getElementById("input-second").value > 9) {
+            document.getElementById("input-second").value = Math.round(document.getElementById("input-second").value);
+        }
     }
-
     async function start() {
         if (isStop) {
+            document.getElementById("input-hour").disabled = true;
+            document.getElementById("input-minute").disabled = true;
+            document.getElementById("input-second").disabled = true;
             isStop = false;
-            var input_number = document.getElementById("time-input").value;
+            var hour = document.getElementById("input-hour").value;
+            var minute = document.getElementById("input-minute").value;
+            var second = document.getElementById("input-second").value;
+            var input_number = Math.round(hour) * 3600 + Math.round(minute) * 60 + Math.round(second);
             while (input_number > 0 && !isStop) {
+                await sleep (500);
                 input_number = input_number - 1;
-                document.getElementById("time-input").value = input_number;
+                document.getElementById("input-second").value = document.getElementById("input-second").value - 1;
+                document.getElementById("input-hour").value = Math.floor(input_number / 3600);
+                document.getElementById("input-minute").value = Math.floor((input_number % 3600) / 60);
+                document.getElementById("input-second").value = Math.floor(input_number % 60);
+                if (document.getElementById("input-hour").value == 0) {
+                    document.getElementById("input-hour").value = "00";
+                }
+                if (document.getElementById("input-minute").value == 0) {
+                    document.getElementById("input-minute").value = "00";
+                }
+                if (document.getElementById("input-second").value == 0) {
+                    document.getElementById("input-second").value = "00";
+                }
                 input();
-                console.log(input_number);
-                await sleep (1000);
+                await sleep (500);
             }
         }
     }
@@ -72,9 +163,16 @@
     }
 
     function reset() {
-        document.getElementById("time-input").value = 0;
-        input();
+        document.getElementById("input-hour").value = "";
+        document.getElementById("input-minute").value = "";
+        document.getElementById("input-second").value = "";
+        document.getElementById("input-hour").placeholder = "00";
+        document.getElementById("input-minute").placeholder = "00";
+        document.getElementById("input-second").placeholder = "00";
         isStop = true;
+        document.getElementById("input-hour").disabled = false;
+        document.getElementById("input-minute").disabled = false;
+        document.getElementById("input-second").disabled = false;
     }
 </script>
 </html>
