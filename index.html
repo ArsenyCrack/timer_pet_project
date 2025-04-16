@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div>
         <h1>Timer</h1>
         <input type="number" id="time-input" placeholder="Enter time in seconds" onkeyup="input()">
-        <input id="start-button" type="button" onclick="start()" value="Start">
+        <input id="start-button" type="button" onclick="start(); this.onclick=null;" value="Start">
         <input id="stop-button" type="button" onclick="stop()" value="Stop">
         <input id="reset-button" type="button" onclick="reset()" value="Reset">
         <p id="timer">00:00:00</p>
@@ -19,9 +20,31 @@
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
     var isStop = true;
 
-    function input() {
+    async function input() {
         var input_number = document.getElementById("time-input").value;
-        document.getElementById("timer").innerHTML = Math.floor(input_number/3600)+":"+Math.floor(input_number%3600/60)+":"+input_number%60;
+        var isFirst = "0";
+        var isSecond = "0";
+        var isThird = "0";
+        if (/*23 >= Math.floor(input_number/3600) &&*/ Math.floor(input_number/3600) >= 10) {
+            isFirst = "";
+        }
+        else {
+            isFirst = "0";
+        }
+        if (59 >= Math.floor(input_number%3600/60) && Math.floor(input_number%3600/60) >= 10) {
+            isSecond = "";
+        }
+        else {
+            isSecond = "0";
+        }
+        if (59 >= Math.floor(input_number%60) && Math.floor(input_number%60) >= 10) {
+            isThird = "";
+        }
+        else {
+            isThird = "0";
+        }
+        console.log(isFirst, isSecond, isThird);
+        document.getElementById("timer").innerHTML = isFirst+Math.floor(input_number/3600)+":"+isSecond+Math.floor(input_number%3600/60)+":"+isThird+input_number%60;
     }
 
     async function start() {
@@ -30,7 +53,7 @@
         while (input_number > 0 && !isStop) {
             input_number = input_number - 1;
             document.getElementById("time-input").value = input_number;
-            document.getElementById("timer").innerHTML = Math.floor(input_number/3600)+":"+Math.floor(input_number%3600/60)+":"+input_number%60;
+            input();
             console.log(input_number);
             await sleep (1000);
         }
@@ -38,12 +61,11 @@
 
     function stop() {
         isStop = true;
-        //document.getElementById("timer").innerHTML = Math.floor(input_number/3600)+":"+Math.floor(input_number%3600/60)+":"+input_number%60;
     }
 
     function reset() {
         document.getElementById("time-input").value = 0;
-        document.getElementById("timer").innerHTML = "00:00:00";
+        input();
         isStop = true;
     }
 </script>
