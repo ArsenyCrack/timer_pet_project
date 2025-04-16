@@ -10,7 +10,7 @@
     <div>
         <h1>Timer</h1>
         <input type="number" min="0" max="86400" id="time-input" placeholder="Enter time in seconds" onkeyup="input()">
-        <input id="start-button" type="button" onclick="start(); this.onclick=null;" value="Start">
+        <input id="start-button" type="button" onclick="start()" value="Start">
         <input id="stop-button" type="button" onclick="stop()" value="Stop">
         <input id="reset-button" type="button" onclick="reset()" value="Reset">
         <p id="timer">00:00:00</p>
@@ -31,7 +31,7 @@
             document.getElementById("time-input").value = input_number;
         }
 
-        if (/*23 >= Math.floor(input_number/3600) &&*/ Math.floor(input_number/3600) >= 10) {
+        if (Math.floor(input_number/3600) >= 10) {
             isFirst = "";
         }
         else {
@@ -54,14 +54,16 @@
     }
 
     async function start() {
-        isStop = false;
-        var input_number = document.getElementById("time-input").value;
-        while (input_number > 0 && !isStop) {
-            input_number = input_number - 1;
-            document.getElementById("time-input").value = input_number;
-            input();
-            console.log(input_number);
-            await sleep (1000);
+        if (isStop) {
+            isStop = false;
+            var input_number = document.getElementById("time-input").value;
+            while (input_number > 0 && !isStop) {
+                input_number = input_number - 1;
+                document.getElementById("time-input").value = input_number;
+                input();
+                console.log(input_number);
+                await sleep (1000);
+            }
         }
     }
 
