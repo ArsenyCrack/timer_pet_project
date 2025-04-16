@@ -15,3 +15,8 @@ body {
     text-align: center;
 }
 
+@media (max-width: 600px) {
+    #timer {
+        font-size: 50px;
+    }
+}
