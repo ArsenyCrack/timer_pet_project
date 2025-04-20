@@ -163,13 +163,13 @@
     }
 
     function reset() {
+        isStop = true;
         document.getElementById("input-hour").value = "";
         document.getElementById("input-minute").value = "";
         document.getElementById("input-second").value = "";
         document.getElementById("input-hour").placeholder = "00";
         document.getElementById("input-minute").placeholder = "00";
         document.getElementById("input-second").placeholder = "00";
-        isStop = true;
         document.getElementById("input-hour").disabled = false;
         document.getElementById("input-minute").disabled = false;
         document.getElementById("input-second").disabled = false;
